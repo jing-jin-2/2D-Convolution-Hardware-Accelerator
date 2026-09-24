@@ -1,0 +1,1338 @@
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+              Version U-2022.12-SP7-2 for linux64 - Jan 30, 2024 
+
+                    Copyright (c) 1988 - 2024 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+Initializing...
+Current time:       Wed Dec 10 20:05:02 2025
+Hostname:           lab15.ece.stonybrook.edu
+CPU Model:          11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz
+CPU Details:        Cores = 16 : Sockets = 1 : Cache Size = 16384 KB : Freq = 2.50 GHz
+OS:                 Linux 4.18.0-553.34.1.el8_10.x86_64
+RAM:                 30 GB (Free  28 GB)
+Swap:                15 GB (Free  15 GB)
+Work Filesystem:    /home/home5 mounted to files:/export/home5
+Tmp Filesystem:     / mounted to /dev/mapper/rhel-root
+Work Disk:          3564 GB (Free 311 GB)
+Tmp Disk:           786 GB (Free 119 GB)
+
+CPU Load: 6%, Ram Free: 28 GB, Swap Free: 15 GB, Work Disk Free: 311 GB, Tmp Disk Free: 119 GB
+##############################################
+# Setup: fill out the following parameters: name of clock signal, clock period (ns),
+# reset signal name (if used), name of top-level module, name of source file
+set CLK_NAME "clk";
+clk
+set CLK_PERIOD 2.00;
+2.00
+set RST_NAME "reset";
+reset
+set TOP_MOD_NAME "Conv";
+Conv
+set SRC_FILE [list "conv.sv" "input_mems.sv" "memory_dual_port.sv" "fifo_ram.sv" "conv_control.sv" "fifo_out.sv" ];
+conv.sv input_mems.sv memory_dual_port.sv fifo_ram.sv conv_control.sv fifo_out.sv
+# If you have multiple source files, change the line above to list them all like this:
+# set SRC_FILE [list "file1.sv" "file2.sv"];
+###############################################
+# setup
+source setupdc.tcl
+NangateOpenCellLibrary_typical.db dw_foundation.sldb
+file mkdir work_synth
+date
+Wed Dec 10 20:05:02 2025
+pid
+3550429
+pwd
+/home/home5/jjin/ese507work/proj/part5
+getenv USER
+jjin
+getenv HOSTNAME
+lab15.ece.stonybrook.edu
+# optimize FSMs
+set fsm_auto_inferring "true"; 
+true
+set fsm_enable_state_minimization "true";
+true
+define_design_lib WORK -path work_synth
+1
+analyze $SRC_FILE -format sverilog
+Running PRESTO HDLC
+Compiling source file ./conv.sv
+Compiling source file ./input_mems.sv
+Compiling source file ./memory_dual_port.sv
+Compiling source file ./fifo_ram.sv
+Warning:  ./fifo_ram.sv:118: The construct 'property' is not supported in synthesis; it is ignored. (VER-708)
+Warning:  ./fifo_ram.sv:123: The construct 'assert property' is not supported in synthesis; it is ignored. (VER-708)
+Warning:  ./fifo_ram.sv:129: The construct 'property' is not supported in synthesis; it is ignored. (VER-708)
+Warning:  ./fifo_ram.sv:134: The construct 'assert property' is not supported in synthesis; it is ignored. (VER-708)
+Compiling source file ./conv_control.sv
+Compiling source file ./fifo_out.sv
+Presto compilation completed successfully.
+Loading db file '/home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLibrary_typical.db'
+Loading db file '/usr/local/synopsys/syn/U-2022.12-SP7-2/libraries/syn/dw_foundation.sldb'
+1
+elaborate -work WORK $TOP_MOD_NAME
+Loading db file '/usr/local/synopsys/syn/U-2022.12-SP7-2/libraries/syn/gtech.db'
+Loading db file '/usr/local/synopsys/syn/U-2022.12-SP7-2/libraries/syn/standard.sldb'
+  Loading link library 'NangateOpenCellLibrary'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Warning:  ./conv.sv:12: signed to unsigned conversion occurs. (VER-318)
+Presto compilation completed successfully. (Conv)
+Elaborated 1 design.
+Current design is now 'Conv'.
+Information: Building the design 'input_mems' instantiated from design 'Conv' with
+	the parameters "INW=18,R=9,C=8,MAXK=5". (HDL-193)
+Warning:  ./input_mems.sv:101: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./input_mems.sv:152: unsigned to signed assignment occurs. (VER-318)
+Warning:  ./input_mems.sv:114: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block at line 75 in file
+	'./input_mems.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            78            |    user/user     |
+===============================================
+
+Statistics for case statements in always block at line 213 in file
+	'./input_mems.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           223            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine input_mems_INW18_R9_C8_MAXK5 line 119 in file
+		'./input_mems.sv'.
+================================================================================
+|    Register Name     |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+================================================================================
+| fsm_input_ram_cs_reg | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+================================================================================
+
+Inferred memory devices in process
+	in routine input_mems_INW18_R9_C8_MAXK5 line 129 in file
+		'./input_mems.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|        K_reg        | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine input_mems_INW18_R9_C8_MAXK5 line 138 in file
+		'./input_mems.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     w_total_reg     | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine input_mems_INW18_R9_C8_MAXK5 line 148 in file
+		'./input_mems.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|        B_reg        | Flip-flop |  18   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine input_mems_INW18_R9_C8_MAXK5 line 171 in file
+		'./input_mems.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      w_cnt_reg      | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine input_mems_INW18_R9_C8_MAXK5 line 189 in file
+		'./input_mems.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      x_cnt_reg      | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine input_mems_INW18_R9_C8_MAXK5 line 213 in file
+		'./input_mems.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      count_reg      | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (input_mems_INW18_R9_C8_MAXK5)
+Information: Building the design 'conv_control' instantiated from design 'Conv' with
+	the parameters "INW=18,R=9,C=8,MAXK=5". (HDL-193)
+Warning:  ./conv_control.sv:7: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./conv_control.sv:119: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./conv_control.sv:120: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./conv_control.sv:173: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./conv_control.sv:187: unsigned to signed assignment occurs. (VER-318)
+Warning:  ./conv_control.sv:228: unsigned to signed assignment occurs. (VER-318)
+Warning:  ./conv_control.sv:274: unsigned to signed assignment occurs. (VER-318)
+Warning:  ./conv_control.sv:279: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./conv_control.sv:277: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./conv_control.sv:369: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./conv_control.sv:379: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./conv_control.sv:375: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./conv_control.sv:447: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./conv_control.sv:455: signed to unsigned assignment occurs. (VER-318)
+Warning:  ./conv_control.sv:155: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block at line 122 in file
+	'./conv_control.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           124            |    user/user     |
+===============================================
+
+Statistics for case statements in always block at line 419 in file
+	'./conv_control.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           424            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 106 in file
+		'./conv_control.sv'.
+===================================================================================
+|      Register Name      |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===================================================================================
+| first_window_loaded_reg | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===================================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 158 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     fsm_cs_reg      | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 168 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   INPUT_TSOP_reg    | Flip-flop |   1   |  N  | N  | N  | Y  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 181 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|        K_reg        | Flip-flop |   2   |  Y  | N  | N  | Y  | N  | N  | N  |
+|        K_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|        B_reg        | Flip-flop |  18   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 192 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    W_read_en_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 204 in file
+		'./conv_control.sv'.
+=================================================================================
+|     Register Name     |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+=================================================================================
+| W_read_data_valid_reg | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+=================================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 211 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+| W_read_data_cnt_reg | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 221 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     weight_reg      | Flip-flop |  450  |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 232 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   W_read_addr_reg   | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 242 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  weight_loaded_reg  | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 257 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       ix_reg        | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+|       iy_reg        | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    line_buf_reg     | Flip-flop |  720  |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 290 in file
+		'./conv_control.sv'.
+=====================================================================================
+|       Register Name       |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+=====================================================================================
+| K_row_data_vld_bitmap_reg | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
+=====================================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 345 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    base_col_reg     | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    weight_ff_reg    | Flip-flop |  450  |  Y  | N  | Y  | N  | N  | N  | N  |
+|  mul_input_win_reg  | Flip-flop |  450  |  Y  | N  | Y  | N  | N  | N  | N  |
+|    base_row_reg     | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 391 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    prod_reg_reg     | Flip-flop |  900  |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 411 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    mul_valid_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine conv_control_INW18_R9_C8_MAXK5 line 419 in file
+		'./conv_control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     mul_cnt_reg     | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Statistics for MUX_OPs
+========================================================================
+|          block name/line           | Inputs | Outputs | # sel inputs |
+========================================================================
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/379 |   8    |   18    |      3       |
+| conv_control_INW18_R9_C8_MAXK5/410 |   8    |    1    |      3       |
+========================================================================
+Presto compilation completed successfully. (conv_control_INW18_R9_C8_MAXK5)
+Information: Building the design 'fifo_out' instantiated from design 'Conv' with
+	the parameters "OUTW=40,DEPTH=16,READY_USE_ALMOST_FULL=1,READY_USE_ALMOST_FULL_THRESH=13". (HDL-193)
+Presto compilation completed successfully. (fifo_out_OUTW40_DEPTH16_READY_USE_ALMOST_FULL1_READY_USE_ALMOST_FULL_THRESH13)
+Information: Building the design 'memory_dual_port' instantiated from design 'input_mems_INW18_R9_C8_MAXK5' with
+	the parameters "WIDTH=18,SIZE=@28206b3a32373320743a20693a2028206b3a31383220743a33353a227369676e6564617272617928302533312530256c6f67696329255938315a6e48262220693a20763a3520292028206b3a31383220743a33353a227369676e6564617272617928302533312530256c6f67696329255938315a6e48262220693a20763a35202920292000@". (HDL-193)
+
+Inferred memory devices in process
+	in routine memory_dual_port_WIDTH18_SIZE25 line 18 in file
+		'./memory_dual_port.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    data_out_reg     | Flip-flop |  18   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |  450  |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (memory_dual_port_WIDTH18_SIZE25)
+Information: Building the design 'fifo_ram' instantiated from design 'input_mems_INW18_R9_C8_MAXK5' with
+	the parameters "DATA_W=18,DEPTH=@28206b3a32373220743a20693a2028206b3a32373320743a20693a2028206b3a31383220743a33353a227369676e6564617272617928302533312530256c6f67696329255938315a6e48262220693a20763a3520292028206b3a31383220743a33353a227369676e6564617272617928302533312530256c6f67696329255938315a6e48262220693a20763a35202920292028206b3a31373820743a31333a22696e74254e624d764f26262220693a20693a31202920292000@". (HDL-193)
+Warning:  ./fifo_ram.sv:51: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./fifo_ram.sv:67: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./fifo_ram.sv:73: signed to unsigned conversion occurs. (VER-318)
+
+Statistics for case statements in always block at line 94 in file
+	'./fifo_ram.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            98            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine fifo_ram_DATA_W18_DEPTH26 line 46 in file
+		'./fifo_ram.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     wr_ptr_reg      | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine fifo_ram_DATA_W18_DEPTH26 line 63 in file
+		'./fifo_ram.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   rd_ptr_cur_reg    | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine fifo_ram_DATA_W18_DEPTH26 line 94 in file
+		'./fifo_ram.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      count_reg      | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (fifo_ram_DATA_W18_DEPTH26)
+Information: Building the design 'fifo_ram' instantiated from design 'fifo_out_OUTW40_DEPTH16_READY_USE_ALMOST_FULL1_READY_USE_ALMOST_FULL_THRESH13' with
+	the parameters "DATA_W=40,DEPTH=16,ALMOST_FULL_THRESH=13". (HDL-193)
+Warning:  ./fifo_ram.sv:51: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./fifo_ram.sv:67: signed to unsigned conversion occurs. (VER-318)
+Warning:  ./fifo_ram.sv:73: signed to unsigned conversion occurs. (VER-318)
+
+Statistics for case statements in always block at line 94 in file
+	'./fifo_ram.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            98            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine fifo_ram_DATA_W40_DEPTH16_ALMOST_FULL_THRESH13 line 46 in file
+		'./fifo_ram.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     wr_ptr_reg      | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine fifo_ram_DATA_W40_DEPTH16_ALMOST_FULL_THRESH13 line 63 in file
+		'./fifo_ram.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   rd_ptr_cur_reg    | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine fifo_ram_DATA_W40_DEPTH16_ALMOST_FULL_THRESH13 line 94 in file
+		'./fifo_ram.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      count_reg      | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (fifo_ram_DATA_W40_DEPTH16_ALMOST_FULL_THRESH13)
+Information: Building the design 'memory_dual_port' instantiated from design 'fifo_ram_DATA_W18_DEPTH26' with
+	the parameters "WIDTH=18,SIZE=26". (HDL-193)
+
+Inferred memory devices in process
+	in routine memory_dual_port_WIDTH18_SIZE26 line 18 in file
+		'./memory_dual_port.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    data_out_reg     | Flip-flop |  18   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |  468  |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (memory_dual_port_WIDTH18_SIZE26)
+Information: Building the design 'memory_dual_port' instantiated from design 'fifo_ram_DATA_W40_DEPTH16_ALMOST_FULL_THRESH13' with
+	the parameters "WIDTH=40,SIZE=16". (HDL-193)
+
+Inferred memory devices in process
+	in routine memory_dual_port_WIDTH40_SIZE16 line 18 in file
+		'./memory_dual_port.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    data_out_reg     | Flip-flop |  40   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |  640  |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Statistics for MUX_OPs
+========================================================================
+|          block name/line           | Inputs | Outputs | # sel inputs |
+========================================================================
+| memory_dual_port_WIDTH40_SIZE16/24 |   16   |   40    |      4       |
+========================================================================
+Presto compilation completed successfully. (memory_dual_port_WIDTH40_SIZE16)
+1
+###### CLOCKS AND PORTS #######
+set CLK_PORT [get_ports $CLK_NAME]
+{clk}
+set TMP1 [remove_from_collection [all_inputs] $CLK_PORT]
+{reset INPUT_TDATA[17] INPUT_TDATA[16] INPUT_TDATA[15] INPUT_TDATA[14] INPUT_TDATA[13] INPUT_TDATA[12] INPUT_TDATA[11] INPUT_TDATA[10] INPUT_TDATA[9] INPUT_TDATA[8] INPUT_TDATA[7] INPUT_TDATA[6] INPUT_TDATA[5] INPUT_TDATA[4] INPUT_TDATA[3] INPUT_TDATA[2] INPUT_TDATA[1] INPUT_TDATA[0] INPUT_TVALID INPUT_TUSER[3] INPUT_TUSER[2] INPUT_TUSER[1] INPUT_TUSER[0] OUTPUT_TREADY}
+set INPUTS [remove_from_collection $TMP1 $RST_NAME]
+{INPUT_TDATA[17] INPUT_TDATA[16] INPUT_TDATA[15] INPUT_TDATA[14] INPUT_TDATA[13] INPUT_TDATA[12] INPUT_TDATA[11] INPUT_TDATA[10] INPUT_TDATA[9] INPUT_TDATA[8] INPUT_TDATA[7] INPUT_TDATA[6] INPUT_TDATA[5] INPUT_TDATA[4] INPUT_TDATA[3] INPUT_TDATA[2] INPUT_TDATA[1] INPUT_TDATA[0] INPUT_TVALID INPUT_TUSER[3] INPUT_TUSER[2] INPUT_TUSER[1] INPUT_TUSER[0] OUTPUT_TREADY}
+create_clock -period $CLK_PERIOD $CLK_PORT
+1
+set_input_delay 0.08 -max -clock $CLK_NAME $INPUTS
+1
+set_output_delay 0.08 -max -clock $CLK_NAME [all_outputs]
+1
+###### OPTIMIZATION #######
+set_max_area 0 
+1
+###### RUN #####
+compile_ultra
+Information: Performing leakage power optimization. (PWR-850)
+CPU Load: 6%, Ram Free: 28 GB, Swap Free: 15 GB, Work Disk Free: 311 GB, Tmp Disk Free: 119 GB
+Alib files are up-to-date.
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | U-2022.12-DWBB_202212.5 |     *     |
+| Licensed DW Building Blocks        | U-2022.12-DWBB_202212.5 |     *     |
+============================================================================
+
+====================================================================================================
+| Flow Information                                                                                 |
+----------------------------------------------------------------------------------------------------
+| Flow         | Design Compiler WLM                                                               |
+| Command Line | compile_ultra                                                                     |
+====================================================================================================
+| Design Information                                      | Value                                  |
+====================================================================================================
+| Number of Scenarios                                     | 0                                      |
+| Leaf Cell Count                                         | 10609                                  |
+| Number of User Hierarchies                              | 8                                      |
+| Sequential Cell Count                                   | 4747                                   |
+| Macro Count                                             | 0                                      |
+| Number of Power Domains                                 | 0                                      |
+| Number of Path Groups                                   | 2                                      |
+| Number of VT Class                                      | 0                                      |
+| Number of Clocks                                        | 1                                      |
+| Number of Dont Touch Cells                              | 620                                    |
+| Number of Dont Touch Nets                               | 0                                      |
+| Number of Size Only Cells                               | 0                                      |
+| Design with UPF Data                                    | false                                  |
+====================================================================================================
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 78 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+  Simplifying Design 'Conv'
+
+Loaded alib file './alib-52/NangateOpenCellLibrary_typical.db.alib'
+  Building model 'DW01_NAND2'
+Information: Ungrouping hierarchy u_input_mems before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy u_fifo_out before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy u_input_mems/wmem before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy u_input_mems/xmem before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy u_fifo_out/u_output_fifo before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy u_input_mems/xmem/u_mem_fifo before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy u_fifo_out/u_output_fifo/u_mem_fifo before Pass 1 (OPT-776)
+Information: Ungrouping 7 of 9 hierarchies before Pass 1 (OPT-775)
+CPU Load: 6%, Ram Free: 28 GB, Swap Free: 15 GB, Work Disk Free: 311 GB, Tmp Disk Free: 119 GB
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'conv_control_INW18_R9_C8_MAXK5'
+Information: Added key list 'DesignWare' to design 'conv_control_INW18_R9_C8_MAXK5'. (DDB-72)
+Information: The finite state machine fsm_cs_reg has been extracted. (FSM_EX-144)
+Design : conv_control_INW18_R9_C8_MAXK5
+Filename : /home/home5/jjin/ese507work/proj/part5/conv_control.sv
+Clock             : clk        
+Asynchronous Reset: reset      
+
+
+Current Encoding (length/style)     : 2 / NONE
+State Vector: { fsm_cs_reg[1] fsm_cs_reg[0] }
+
+
+FSM_COMPLETE : FALSE
+Re-Encoding style     : NONE
+
+
+State Encodings and Order: 
+
+S_IDLE     : 00
+S_READ_WINDOW : 01
+S_CALCULATE : 10
+S_READ_NEW_LINE : 11
+
+
+ Implement Synthetic for 'conv_control_INW18_R9_C8_MAXK5'.
+  Processing 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_J1_1'
+  Processing 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_J1_2'
+  Processing 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_J1_3'
+  Processing 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_J1_4'
+  Processing 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_J1_5'
+  Processing 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_J1_6'
+  Processing 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_J1_7'
+Information: Command 'do_operand_isolation' is obsolete and is being ignored.  Please refer to the replacement command 'set power_enable_datapath_gating true' instead. (INFO-118)
+  Processing 'Conv'
+Information: Added key list 'DesignWare' to design 'Conv'. (DDB-72)
+ Implement Synthetic for 'Conv'.
+Information: Command 'do_operand_isolation' is obsolete and is being ignored.  Please refer to the replacement command 'set power_enable_datapath_gating true' instead. (INFO-118)
+Information: The register 'u_input_mems/w_total_reg[1]' is a constant and will be removed. (OPT-1206)
+CPU Load: 7%, Ram Free: 28 GB, Swap Free: 15 GB, Work Disk Free: 311 GB, Tmp Disk Free: 119 GB
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+Information: Added key list 'DesignWare' to design 'Conv_RSOP_1027'. (DDB-72)
+Information: Added key list 'DesignWare' to design 'Conv_RSOP_1028'. (DDB-72)
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_0'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_0'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_1'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_1'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_2'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_2'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_3'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_3'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_4'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_4'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW01_add_0'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_4'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_5'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_5'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_6'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_6'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_7'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_7'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_8'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_8'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_9'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_9'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW01_add_1'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_9'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_10'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_10'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_11'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_11'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_12'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_12'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_13'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_13'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_14'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_14'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW01_add_2'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_14'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_15'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_15'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_16'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_16'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_17'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_17'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_18'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_18'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_19'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_19'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW01_add_3'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_19'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_20'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_20'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_21'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_21'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_22'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_22'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_23'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_23'
+  Structuring 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_24'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_24'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW01_add_4'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'DW01_add'
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DW_div_uns_24'
+  Mapping Optimization (Phase 1)
+  Mapping Optimization (Phase 2)
+Information: Command 'do_operand_isolation' is obsolete and is being ignored.  Please refer to the replacement command 'set power_enable_datapath_gating true' instead. (INFO-118)
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:02:16  119645.2      3.76    3430.0   22649.2                           3300925.7500
+    0:02:17  119589.3      3.79    3413.9   22649.9                           3299340.7500
+
+  Beginning Constant Register Removal
+  -----------------------------------
+    0:02:18  120383.9      3.79    3926.2   22649.9                           3341281.5000
+    0:02:19  120383.9      3.79    3926.2   22649.9                           3341281.5000
+
+  Beginning Global Optimizations
+  ------------------------------
+  Numerical Synthesis (Phase 1)
+  Numerical Synthesis (Phase 2)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+  Global Optimization (Phase 31)
+  Global Optimization (Phase 32)
+  Mapping 'conv_control_INW18_R9_C8_MAXK5_DP_OP_5460J1_124_3853_0'
+
+  Beginning Isolate Ports
+  -----------------------
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:02:31   85343.2      0.89     630.8    2368.5                           1858037.0000
+    0:02:45   87757.7      0.44     262.2     483.4                           1944003.3750
+    0:02:45   87757.7      0.44     262.2     483.4                           1944003.3750
+    0:02:47   86541.2      0.44     261.3     497.6                           1900326.1250
+    0:02:50   86368.9      0.44     222.2     492.1                           1895930.3750
+    0:02:51   86329.5      0.44     222.5     492.1                           1894753.6250
+
+  Beginning WLM Backend Optimization
+  --------------------------------------
+    0:02:57   85787.7      0.43     213.6     490.0                           1863497.2500
+    0:02:58   85114.4      0.43     172.7     422.7                           1834016.1250
+    0:03:02   84267.5      0.42     179.4     281.7                           1803221.3750
+    0:03:02   84149.9      0.42     178.4     281.3                           1798770.7500
+    0:03:03   83994.6      0.37     151.6     479.9                           1792503.7500
+    0:03:03   83994.6      0.37     151.6     479.9                           1792503.7500
+    0:03:06   83029.2      0.37     142.7     476.9                           1732955.0000
+    0:03:06   83029.2      0.37     142.7     476.9                           1732955.0000
+    0:03:40   86477.4      0.08      32.3     595.8                           1846770.3750
+    0:03:40   86477.4      0.08      32.3     595.8                           1846770.3750
+    0:03:40   86477.9      0.08      29.6     596.3                           1846857.0000
+    0:03:40   86477.9      0.08      29.6     596.3                           1846857.0000
+    0:03:40   86477.9      0.08      29.6     596.3                           1846857.0000
+    0:03:40   86477.9      0.08      29.6     596.3                           1846857.0000
+    0:03:50   87037.3      0.01       0.5     520.3                           1866996.7500
+    0:03:50   87037.3      0.01       0.5     520.3                           1866996.7500
+    0:03:53   87308.1      0.01       0.3     526.5                           1875117.1250
+    0:03:53   87308.1      0.01       0.3     526.5                           1875117.1250
+    0:03:55   87408.1      0.00       0.0     524.1                           1878277.6250
+    0:03:55   87408.1      0.00       0.0     524.1                           1878277.6250
+    0:03:56   87408.1      0.00       0.0     524.1                           1878277.6250
+    0:03:56   87408.1      0.00       0.0     524.1                           1878277.6250
+    0:03:56   87408.1      0.00       0.0     524.1                           1878277.6250
+    0:03:56   87408.1      0.00       0.0     524.1                           1878277.6250
+    0:03:57   87408.1      0.00       0.0     524.1                           1878277.6250
+
+
+  Beginning Design Rule Fixing  (max_transition)  (max_capacitance)
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:03:57   87408.1      0.00       0.0     524.1                           1878277.6250
+  Global Optimization (Phase 33)
+  Global Optimization (Phase 34)
+  Global Optimization (Phase 35)
+    0:03:58   87384.5      0.00       0.0       0.0                           1876872.2500
+    0:03:58   87384.5      0.00       0.0       0.0                           1876872.2500
+
+
+  Beginning Leakage Power Optimization  (max_leakage_power 0)
+  ------------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:03:58   87384.5      0.00       0.0       0.0                           1876872.2500
+    0:03:58   88010.4      0.00       0.0       0.0                           1909421.7500
+    0:03:58   88010.4      0.00       0.0       0.0                           1909421.7500
+    0:03:58   88010.4      0.00       0.0       0.0                           1909421.7500
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+    0:04:01   85581.8      0.00       0.0       0.0                           1773733.3750
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:04:02   85548.0      0.00       0.0       0.0                           1773054.6250
+    0:04:05   83982.3      0.00       0.0       0.0                           1717722.1250
+    0:04:05   83983.4      0.00       0.0       0.0                           1717739.3750
+    0:04:05   83983.4      0.00       0.0       0.0                           1717739.3750
+    0:04:06   83973.5      0.00       0.0       0.0                           1717078.0000
+    0:04:09   83701.4      0.00       0.0       0.0                           1710499.1250
+    0:04:10   83662.1      0.00       0.0       0.0                           1709024.6250
+    0:04:10   83662.1      0.00       0.0       0.0                           1709024.6250
+    0:04:10   83662.1      0.00       0.0       0.0                           1709024.6250
+    0:04:10   83662.1      0.00       0.0       0.0                           1709024.6250
+    0:04:10   83662.1      0.00       0.0       0.0                           1709024.6250
+    0:04:10   83662.1      0.00       0.0       0.0                           1709024.6250
+    0:04:12   83620.6      0.00       0.0       0.0                           1706516.5000
+CPU Load: 6%, Ram Free: 28 GB, Swap Free: 15 GB, Work Disk Free: 311 GB, Tmp Disk Free: 119 GB
+Loading db file '/home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLibrary_typical.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Warning: Design 'Conv' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+     Net 'clk': 4746 load(s), 1 driver(s)
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+CPU Load: 6%, Ram Free: 28 GB, Swap Free: 15 GB, Work Disk Free: 311 GB, Tmp Disk Free: 119 GB
+Information: Total number of MV cells in the design.
+----------------------------------------------------------------------------------------------------
+ MV Cells                                           Total Number                                   
+----------------------------------------------------------------------------------------------------
+ Level Shifter:                                     0                                             
+ Enable Level Shifter:                              0                                             
+ Isolation Cell:                                    0                                             
+ Retention Cell:                                    0                                             
+ Retention Clamp Cell:                              0                                             
+ Switch Cell:                                       0                                             
+ Always-On Cell:                                    0                                             
+ Repeater Cell:                                     0                                             
+
+----------------------------------------------------------------------------------------------------
+Unmapped MV Cells 
+----------------------------------------------------------------------------------------------------
+0 Isolation Cells are unmapped 
+0 Retention Clamp Cells are unmapped 
+----------------------------------------------------------------------------------------------------
+1
+report_area
+ 
+****************************************
+Report : area
+Design : Conv
+Version: U-2022.12-SP7-2
+Date   : Wed Dec 10 20:09:18 2025
+****************************************
+
+Information: Updating design information... (UID-85)
+Warning: Design 'Conv' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLibrary_typical.db)
+
+Number of ports:                          178
+Number of nets:                         52282
+Number of cells:                        46884
+Number of combinational cells:          42132
+Number of sequential cells:              4746
+Number of macros/black boxes:               0
+Number of buf/inv:                       3961
+Number of references:                      38
+
+Combinational area:              59574.424285
+Buf/Inv area:                     2307.284012
+Noncombinational area:           24046.134276
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                 83620.558562
+Total area:                 undefined
+1
+report_power
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : Conv
+Version: U-2022.12-SP7-2
+Date   : Wed Dec 10 20:09:18 2025
+****************************************
+
+
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLibrary_typical.db)
+
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+Design        Wire Load Model            Library
+------------------------------------------------
+Conv                   5K_hvratio_1_1    NangateOpenCellLibrary
+
+
+Global Operating Voltage = 1.1  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000ff
+    Time Units = 1ns
+    Dynamic Power Units = 1uW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+Attributes
+----------
+i - Including register clock pin internal power
+
+
+  Cell Internal Power  =  15.6125 mW   (97%)
+  Net Switching Power  = 485.9676 uW    (3%)
+                         ---------
+Total Dynamic Power    =  16.0985 mW  (100%)
+
+Cell Leakage Power     =   1.7627 mW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network  1.5443e+04            0.0000            0.0000        1.5443e+04  (  86.46%)  i
+register          64.0361           49.1007        3.8361e+05          496.7451  (   2.78%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational    104.9471          436.8737        1.3791e+06        1.9209e+03  (  10.75%)
+--------------------------------------------------------------------------------------------------
+Total          1.5612e+04 uW       485.9744 uW     1.7627e+06 nW     1.7861e+04 uW
+1
+report_timing
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : Conv
+Version: U-2022.12-SP7-2
+Date   : Wed Dec 10 20:09:19 2025
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: u_conv_control/mul_input_win_reg[0][4][5]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_conv_control/prod_reg_reg[0][4][34]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  Conv               5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_conv_control/mul_input_win_reg[0][4][5]/CK (DFFR_X2)
+                                                          0.00 #     0.00 r
+  u_conv_control/mul_input_win_reg[0][4][5]/Q (DFFR_X2)
+                                                          0.19       0.19 r
+  u_conv_control/U26009/ZN (XNOR2_X2)                     0.15       0.34 r
+  u_conv_control/U2055/ZN (INV_X1)                        0.04       0.38 f
+  u_conv_control/U516/ZN (OR2_X2)                         0.10       0.48 f
+  u_conv_control/U3294/ZN (OAI21_X1)                      0.08       0.56 r
+  u_conv_control/U26152/S (FA_X1)                         0.13       0.69 f
+  u_conv_control/U3286/S (FA_X1)                          0.16       0.85 r
+  u_conv_control/U3143/ZN (XNOR2_X1)                      0.04       0.89 f
+  u_conv_control/U26054/ZN (NOR2_X1)                      0.06       0.95 r
+  u_conv_control/U26133/ZN (OAI21_X1)                     0.04       0.99 f
+  u_conv_control/U26134/ZN (AOI21_X1)                     0.06       1.05 r
+  u_conv_control/U26170/ZN (OAI21_X1)                     0.04       1.09 f
+  u_conv_control/U7227/ZN (AOI21_X1)                      0.05       1.14 r
+  u_conv_control/U4333/ZN (OAI21_X1)                      0.05       1.19 f
+  u_conv_control/U2915/ZN (OAI211_X1)                     0.06       1.25 r
+  u_conv_control/U3142/ZN (NAND2_X1)                      0.04       1.28 f
+  u_conv_control/U3030/ZN (NAND2_X1)                      0.03       1.31 r
+  u_conv_control/U4782/ZN (NAND2_X1)                      0.03       1.34 f
+  u_conv_control/U26416/CO (FA_X1)                        0.09       1.43 f
+  u_conv_control/U26413/CO (FA_X1)                        0.09       1.52 f
+  u_conv_control/U26409/CO (FA_X1)                        0.09       1.61 f
+  u_conv_control/U26405/CO (FA_X1)                        0.09       1.70 f
+  u_conv_control/U6170/ZN (NAND2_X1)                      0.03       1.74 r
+  u_conv_control/U6127/ZN (NAND2_X1)                      0.03       1.77 f
+  u_conv_control/U26377/ZN (NAND2_X1)                     0.04       1.81 r
+  u_conv_control/U5949/ZN (OAI21_X1)                      0.04       1.84 f
+  u_conv_control/U26391/ZN (XNOR2_X1)                     0.05       1.90 f
+  u_conv_control/U26392/ZN (NAND2_X1)                     0.03       1.92 r
+  u_conv_control/U26394/ZN (NAND2_X1)                     0.03       1.95 f
+  u_conv_control/prod_reg_reg[0][4][34]/D (DFFR_X1)       0.01       1.96 f
+  data arrival time                                                  1.96
+
+  clock clk (rise edge)                                   2.00       2.00
+  clock network delay (ideal)                             0.00       2.00
+  u_conv_control/prod_reg_reg[0][4][34]/CK (DFFR_X1)      0.00       2.00 r
+  library setup time                                     -0.04       1.96
+  data required time                                                 1.96
+  --------------------------------------------------------------------------
+  data required time                                                 1.96
+  data arrival time                                                 -1.96
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+1
+report_timing -loops
+ 
+****************************************
+Report : timing
+        -loops
+        -max_paths 1
+Design : Conv
+Version: U-2022.12-SP7-2
+Date   : Wed Dec 10 20:09:19 2025
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+No loops.
+
+1
+date
+Wed Dec 10 20:09:19 2025
+# write -f verilog $TOP_MOD_NAME -output gates.v -hierarchy
+quit
+
+Memory usage for this session 330 Mbytes.
+Memory usage for this session including child processes 357 Mbytes.
+CPU usage for this session 253 seconds ( 0.07 hours ).
+Elapsed time for this session 259 seconds ( 0.07 hours ).
+
+Thank you...
